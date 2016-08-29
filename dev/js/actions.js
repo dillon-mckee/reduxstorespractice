@@ -38,24 +38,25 @@ var generateNumber = function(number) {
 };
 
 var USER_GUESS = 'USER_GUESS'
-var userGuess = function(userGuess) {
+var userGuess = function(userGuess, guessList) {
     return {
         type: USER_GUESS,
-        userGuess: []
-
+        userGuess: userGuess,
+        guessList: guessList
     }
 };
 
 var COMPARE_GUESS = 'COMPARE_GUESS'
-var compareGuess = function(number, userGuess, compareGuess){
+var compareGuess = function(number, userGuess, compareGuess, guessList){
     return {
-        type: compareGuess,
+        type: COMPARE_GUESS,
         userGuess: userGuess,
-        compareGuess: compareGuess
+        compareGuess: compareGuess,
+        guessList: guessList
     }
 };
 
-exports.GENERATE_NUMBER =GENERATE_NUMBER;
+exports.GENERATE_NUMBER = GENERATE_NUMBER;
 exports.generateNumber = generateNumber;
 exports.USER_GUESS = USER_GUESS;
 exports.userGuess = userGuess;
