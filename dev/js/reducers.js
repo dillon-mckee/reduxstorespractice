@@ -55,52 +55,60 @@
 var update = require('react-addons-update');
 var actions = require('./actions');
 
-var initialState = [{
+var ranNumb = Math.floor((Math.random() * 100) + 1);
+
+var initialState = {
+    number: 0,
+    usersGuess: 0,
+    compareGuess: '',
+    guessCount: 0,
     guessList: []
-}];
+};
 
 var hotOrColdReducer = function(state, action) {
     state = state || initialState;
     if (action.type === actions.GENERATE_NUMBER) {
-        return state.concat({
-            number: Math.floor((Math.random() * 100) + 1)
+        var newState = update(state, {
+            number: {$set: ranNumb}
         });
-    } 
+
+        return newState
+    }
     else if (action.type === actions.USER_GUESS) {
-        state = state || initialState;
+        var guessCounter = state.guessCount++;
         
-        // var before = state.slice(0, i);
-        // var after = state.slice(i + 1);
-        // var newState = Object.assign({}, userGuess, {guessList: state[0].guessList.push(action.userGuess});
-        // return before.concat(newRepository, after);
-    
+        var beforeList = state.guessList.slice();
+        var afterList = beforeList.concat([action.usersGuess]);
 
-        return state.concat({
-
-            // userGuess: action.userGuess,
-            guessList: state[0].guessList.push(action.userGuess),
+        var newState = update(state, {
+            usersGuess: {$set: action.usersGuess},
+            guessCount: {$set: guessCounter},
+            guessList: {$set: afterList}
         });
+
+        return newState;
     }
     else if (action.type === actions.COMPARE_GUESS) {
-        if ((Math.abs(state.userGuess - state.number)) < 10) {
+        var compareGuess;
+        if ((Math.abs(state.usersGuess - state.number)) < 10) {
             compareGuess = "hot"
         }
-        else if ((Math.abs(state.userGuess - state.number)) < 20) {
+        else if ((Math.abs(state.usersGuess - state.number)) < 20) {
             compareGuess = "warm"
         }
-        else if (state.userGuess === state.number && state.userGuess != undefined) {
+        else if (state.usersGuess === state.number && state.usersGuess != undefined) {
             compareGuess = "WINNNNEERRRR!!!!"
         }
         else {
             compareGuess = "cold"
         }
-        return state.concat({compareGuess})
-    }
+        
+        var newState = update(state, {
+            compareGuess: {$set: compareGuess},
+        });
 
-    // var newState = update(state, {
-    //     userGuess: {$set: action.userGuess},
-    //     guessList: {$set: state[0].guessList.push(action.userGuess)} 
-    // })
+        return newState;
+    }
 
     return state;
 };

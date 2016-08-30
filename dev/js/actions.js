@@ -38,19 +38,19 @@ var generateNumber = function(number) {
 };
 
 var USER_GUESS = 'USER_GUESS'
-var userGuess = function(userGuess, guessList) {
+var userGuess = function(usersGuess, guessList) {
     return {
         type: USER_GUESS,
-        userGuess: userGuess,
+        usersGuess: usersGuess,
         guessList: guessList
     }
 };
 
 var COMPARE_GUESS = 'COMPARE_GUESS'
-var compareGuess = function(number, userGuess, compareGuess, guessList){
+var compareGuess = function(number, usersGuess, compareGuess, guessList){
     return {
         type: COMPARE_GUESS,
-        userGuess: userGuess,
+        usersGuess: userGuess,
         compareGuess: compareGuess,
         guessList: guessList
     }
